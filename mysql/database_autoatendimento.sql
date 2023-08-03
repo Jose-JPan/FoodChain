@@ -1,24 +1,26 @@
 CREATE DATABASE AutoAtendimento;
 
-use autoatendimento;
+use AutoAtendimento;
 
 CREATE TABLE tblCondicional (
-    CondicionalID INTEGER(11) NOT NULL,
+    -- CondicionalID INTEGER(11) NOT NULL,
+    CondicionalID INTEGER NOT NULL AUTO_INCREMENT,
     ProdutoID     INTEGER(11) NOT NULL,
     Descricao     VARCHAR(50) NOT NULL,
     QtdMinima     INTEGER(11) NOT NULL,
     QtdMaxima     INTEGER(11) NOT NULL,
-    Obrigatorio   TINYINT(4) NOT NULL DEFAULT 1
+    Obrigatorio   TINYINT(4)  NOT NULL DEFAULT 1,
+    PRIMARY KEY (CondicionalID)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO tblCondicional (CondicionalID, ProdutoID, Descricao, QtdMinima, QtdMaxima, Obrigatorio) VALUES(2, 5, "ARROZ", 1, 2, 1);
-INSERT INTO tblCondicional (CondicionalID, ProdutoID, Descricao, QtdMinima, QtdMaxima, Obrigatorio) VALUES(3, 5, "ARROZ", 1, 1, 1);
+INSERT INTO tblCondicional (ProdutoID, Descricao, QtdMinima, QtdMaxima, Obrigatorio) VALUES(5, "ARROZ", 1, 2, 1);
+INSERT INTO tblCondicional (ProdutoID, Descricao, QtdMinima, QtdMaxima, Obrigatorio) VALUES(5, "ARROZ", 1, 1, 1);
 
 
 
 
 CREATE TABLE tblConfigDelivery (
-    ConfigDeliveryID        INTEGER(11) NOT NULL,
+    ConfigDeliveryID        INTEGER NOT NULL AUTO_INCREMENT,
     NomeFantasia            VARCHAR(50) NOT NULL,
     AliasLojaVirtual        VARCHAR(50) NOT NULL,
     FormaTaxaEntrega        VARCHAR(50) NOT NULL,
@@ -36,80 +38,83 @@ CREATE TABLE tblConfigDelivery (
     CaminhoImagemDeFundo    VARCHAR(50) NOT NULL,
     Entrega                 VARCHAR(5) NOT NULL,
     Retirada                VARCHAR(5) NOT NULL,
-    EstouAqui               VARCHAR(5) NOT NULL
+    EstouAqui               VARCHAR(5) NOT NULL,
+    PRIMARY KEY (ConfigDeliveryID)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO tblConfigDelivery (ConfigDeliveryID, NomeFantasia, AliasLojaVirtual, FormaTaxaEntrega, TempoEntrega, TempoRetirada, ValorMinCompra, BaseCalculoValorPizza, FecharaLoja, TextoParaLojaAberta, TextoParaLojaFechada, TamanhoDasImagens, ImpressaoPedido, NotificarWhatsapp, CaminhoLogoTipoDelivery, CaminhoImagemDeFundo, Entrega, Retirada, EstouAqui) 
-VALUES(1, "Restaurante Sabor e Arte", "restaurantesaborearte", "BAIRROS", 30, 30, "0,00", "Valor Medio", "True", "Faça seu pedido", "Loja Fechada", "240 x 240", "IMPRESSÃO 80mm", "True", "", "", "True", "True", "False");
+INSERT INTO tblConfigDelivery (NomeFantasia, AliasLojaVirtual, FormaTaxaEntrega, TempoEntrega, TempoRetirada, ValorMinCompra, BaseCalculoValorPizza, FecharaLoja, TextoParaLojaAberta, TextoParaLojaFechada, TamanhoDasImagens, ImpressaoPedido, NotificarWhatsapp, CaminhoLogoTipoDelivery, CaminhoImagemDeFundo, Entrega, Retirada, EstouAqui) 
+VALUES("Restaurante Sabor e Arte", "restaurantesaborearte", "BAIRROS", 30, 30, "0,00", "Valor Medio", "True", "Faça seu pedido", "Loja Fechada", "240 x 240", "IMPRESSÃO 80mm", "True", "", "", "True", "True", "False");
 
 
 
 
 
 CREATE TABLE tblGrupo (
-    GrupoID INTEGER(11) NOT NULL,
-    Grupo   VARCHAR(40) NOT NULL
+    GrupoID INTEGER     NOT NULL AUTO_INCREMENT,
+    Grupo   VARCHAR(40) NOT NULL,
+    PRIMARY KEY (GrupoID)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-INSERT INTO tblGrupo (GrupoID, Grupo) VALUES(2, 'SUCO NATURAL');
-INSERT INTO tblGrupo (GrupoID, Grupo) VALUES(3, 'SUCO POLPA');
-INSERT INTO tblGrupo (GrupoID, Grupo) VALUES(4, 'REFRIGERANTES');
-INSERT INTO tblGrupo (GrupoID, Grupo) VALUES(5, 'CERVEJAS');
-INSERT INTO tblGrupo (GrupoID, Grupo) VALUES(1, 'PRATOS');
+INSERT INTO tblGrupo (Grupo) VALUES("SUCO NATURAL");
+INSERT INTO tblGrupo (Grupo) VALUES("SUCO POLPA");
+INSERT INTO tblGrupo (Grupo) VALUES("REFRIGERANTES");
+INSERT INTO tblGrupo (Grupo) VALUES("CERVEJAS");
+INSERT INTO tblGrupo (Grupo) VALUES("PRATOS");
 
 
 
 
 
 CREATE TABLE tblIngredientes (
-    IngredienteID INTEGER(11) NOT NULL,
+    IngredienteID INTEGER      NOT NULL AUTO_INCREMENT,
     Descricao     VARCHAR(100) NOT NULL,
-    Valor         VARCHAR(10) NOT NULL DEFAULT '0,00',
-    ProdutoID     INTEGER(11) NOT NULL,
-    Ativo         TINYINT(1) NOT NULL DEFAULT 1
+    Valor         VARCHAR(10)  NOT NULL DEFAULT '0,00',
+    ProdutoID     INTEGER(11)  NOT NULL,
+    Ativo         TINYINT(1)   NOT NULL DEFAULT 1,
+    PRIMARY KEY (IngredienteID)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO tblIngredientes (IngredienteID, Descricao, valor, ProdutoID, Ativo) VALUES(8, 'Salada', '0.00', 5, 1);
-INSERT INTO tblIngredientes (IngredienteID, Descricao, valor, ProdutoID, Ativo) VALUES(4, 'Feijao', '0,00', 5, 1);
+INSERT INTO tblIngredientes (Descricao, valor, ProdutoID, Ativo) VALUES("Salada", '0.00', 5, 1);
+INSERT INTO tblIngredientes (Descricao, valor, ProdutoID, Ativo) VALUES("Feijao", '0,00', 5, 1);
 
 
 
 
 
 CREATE TABLE tblProdutos (
-    ProdutoID  INTEGER(11) NOT NULL,
-    Codigo     VARCHAR(13) NOT NULL,
-    Descricao  VARCHAR(50) NOT NULL,
-    Unidade    VARCHAR(2) NOT NULL,
-    Preco      VARCHAR(10) NOT NULL,
-    Estoque    VARCHAR(10) NOT NULL,
-    Ncm        VARCHAR(8) NOT NULL,
-    Cst        VARCHAR(10) NOT NULL,
-    Aliquota   VARCHAR(2) NOT NULL,
-    GrupoID    INTEGER(11) NOT NULL,
-    Grupo      VARCHAR(40) NOT NULL,
-    Ativo      TINYINT(1) NOT NULL DEFAULT 1,
+    ProdutoID  INTEGER      NOT NULL AUTO_INCREMENT,
+    Codigo     VARCHAR(13)  NOT NULL,
+    Descricao  VARCHAR(50)  NOT NULL,
+    Unidade    VARCHAR(2)   NOT NULL,
+    Preco      VARCHAR(10)  NOT NULL,
+    Estoque    VARCHAR(10)  NOT NULL,
+    Ncm        VARCHAR(8)   NOT NULL,
+    Cst        VARCHAR(10)  NOT NULL,
+    Aliquota   VARCHAR(2)   NOT NULL,
+    GrupoID    INTEGER(11)  NOT NULL,
+    Grupo      VARCHAR(40)  NOT NULL,
+    Ativo      TINYINT(1)   NOT NULL DEFAULT 1,
     Observacao VARCHAR(200) NOT NULL,
-    Imagem     VARCHAR(50) NOT NULL
+    Imagem     VARCHAR(50)  NOT NULL,
+    PRIMARY KEY (ProdutoID)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-INSERT INTO tblProdutos (ProdutoID, Codigo, Descricao, Unidade, Preco, Estoque, Ncm, Cst, Aliquota, GrupoID, Grupo, Ativo, Observacao, Imagem) VALUES(5, "0000000000123", "MARMITA PEQUENA", "UN", "21.50", "100", "19059090", "123456789", "07", 1, "PRATOS", 1, "Arroz, Feijão, 1 Mistura, 2 Guarnição, Salada Opcional(R$ 2,00). ", "marmitaa.jpg");
-INSERT INTO tblProdutos (ProdutoID, Codigo, Descricao, Unidade, Preco, Estoque, Ncm, Cst, Aliquota, GrupoID, Grupo, Ativo, Observacao, Imagem) VALUES(5, "0000000000123", "MARMITA PEQUENA", "UN", "21.50", "100", "19059090", "123456789", "07", 1, "PRATOS", 1, "Arroz, Feijão, 1 Mistura, 2 Guarnição, Salada Opcional(R$ 2,00). ", "marmitaa.jpg");
-INSERT INTO tblProdutos (ProdutoID, Codigo, Descricao, Unidade, Preco, Estoque, Ncm, Cst, Aliquota, GrupoID, Grupo, Ativo, Observacao, Imagem) VALUES(10, "0000000009998", "MARMITA MEDIA", "UN", "25.00", "10", "19059090", "1234", "18", 1, "PRATOS", 1, "Arroz, Feijao, 2 Misturas, 1 Guarnição, 1 Salada OU 2 Guarnição Sem Salada.", "marmitaa.jpg");
-INSERT INTO tblProdutos (ProdutoID, Codigo, Descricao, Unidade, Preco, Estoque, Ncm, Cst, Aliquota, GrupoID, Grupo, Ativo, Observacao, Imagem) VALUES(11, "0000000000031", "MARMITA GRANDE", "UN", "28.00", "100", "19059090", "123456", "18", 1, "PRATOS", 1, "Arroz, Feijao, 2 Misturas , 1 Guarnição, 1 Salada ou 2 Guarnição sem Salada", "marmitaa.jpg");
-INSERT INTO tblProdutos (ProdutoID, Codigo, Descricao, Unidade, Preco, Estoque, Ncm, Cst, Aliquota, GrupoID, Grupo, Ativo, Observacao, Imagem) VALUES(12, "0000000000017", "FEIJOADA MEDIA", "UN", "35.00", "100", "19059090", "123456", "18", 1, "PRATOS", 1, "FEIJOADA MEDIA", "feijoada.jpg");
-INSERT INTO tblProdutos (ProdutoID, Codigo, Descricao, Unidade, Preco, Estoque, Ncm, Cst, Aliquota, GrupoID, Grupo, Ativo, Observacao, Imagem) VALUES(13, "0000000000024", "FEIJOADA GRANDE", "UN", "39.00", "100", "19059090", "123456", "18", 1, "PRATOS", 1, "FEIJOADA GRANDE", "feijoada.jpg");
-INSERT INTO tblProdutos (ProdutoID, Codigo, Descricao, Unidade, Preco, Estoque, Ncm, Cst, Aliquota, GrupoID, Grupo, Ativo, Observacao, Imagem) VALUES(14, "0000000000048", "Coca Cola Lata 350ml Zero", "UN", "8.50", "100", "19059090", "123456", "18", 4, "REFRIERANTES", 1, "COCA COLA", "cocacola350mlzero.jpg");
-INSERT INTO tblProdutos (ProdutoID, Codigo, Descricao, Unidade, Preco, Estoque, Ncm, Cst, Aliquota, GrupoID, Grupo, Ativo, Observacao, Imagem) VALUES(18, "0000000000051", "SUCO DE LARANJA", "UN", "8.50", "100", "19059090", "123456", "18", 2, "", 1, "Suco de Laranja Natural", "sucodelaranja.jpg");
-INSERT INTO tblProdutos (ProdutoID, Codigo, Descricao, Unidade, Preco, Estoque, Ncm, Cst, Aliquota, GrupoID, Grupo, Ativo, Observacao, Imagem) VALUES(19, "0000000000040", "Heineken Lata 350 ml", "UN", "7.50", "100", "19059090", "123456", "18", 5, "", 1, "Digite os detalhes do produto", "heinekenLata350ml.jpg");
-INSERT INTO tblProdutos (ProdutoID, Codigo, Descricao, Unidade, Preco, Estoque, Ncm, Cst, Aliquota, GrupoID, Grupo, Ativo, Observacao, Imagem) VALUES(20, "0000000000019", "Coca Cola Lata 220 ml", "UN", "3.50", "100", "Digite o", "Digite o C", "Di", 4, "", 1, "Digite os detalhes do produto", "COCACOLALATA200ML.jpg");
+INSERT INTO tblProdutos (Codigo, Descricao, Unidade, Preco, Estoque, Ncm, Cst, Aliquota, GrupoID, Grupo, Ativo, Observacao, Imagem) VALUES("0000000000123", "MARMITA PEQUENA", "UN", "21.50", "100", "19059090", "123456789", "07", 1, "PRATOS", 1, "Arroz, Feijão, 1 Mistura, 2 Guarnição, Salada Opcional(R$ 2,00). ", "marmitaa.jpg");
+INSERT INTO tblProdutos (Codigo, Descricao, Unidade, Preco, Estoque, Ncm, Cst, Aliquota, GrupoID, Grupo, Ativo, Observacao, Imagem) VALUES("0000000009998", "MARMITA MEDIA", "UN", "25.00", "10", "19059090", "1234", "18", 1, "PRATOS", 1, "Arroz, Feijao, 2 Misturas, 1 Guarnição, 1 Salada OU 2 Guarnição Sem Salada.", "marmitaa.jpg");
+INSERT INTO tblProdutos (Codigo, Descricao, Unidade, Preco, Estoque, Ncm, Cst, Aliquota, GrupoID, Grupo, Ativo, Observacao, Imagem) VALUES("0000000000031", "MARMITA GRANDE", "UN", "28.00", "100", "19059090", "123456", "18", 1, "PRATOS", 1, "Arroz, Feijao, 2 Misturas , 1 Guarnição, 1 Salada ou 2 Guarnição sem Salada", "marmitaa.jpg");
+INSERT INTO tblProdutos (Codigo, Descricao, Unidade, Preco, Estoque, Ncm, Cst, Aliquota, GrupoID, Grupo, Ativo, Observacao, Imagem) VALUES("0000000000017", "FEIJOADA MEDIA", "UN", "35.00", "100", "19059090", "123456", "18", 1, "PRATOS", 1, "FEIJOADA MEDIA", "feijoada.jpg");
+INSERT INTO tblProdutos (Codigo, Descricao, Unidade, Preco, Estoque, Ncm, Cst, Aliquota, GrupoID, Grupo, Ativo, Observacao, Imagem) VALUES("0000000000024", "FEIJOADA GRANDE", "UN", "39.00", "100", "19059090", "123456", "18", 1, "PRATOS", 1, "FEIJOADA GRANDE", "feijoada.jpg");
+INSERT INTO tblProdutos (Codigo, Descricao, Unidade, Preco, Estoque, Ncm, Cst, Aliquota, GrupoID, Grupo, Ativo, Observacao, Imagem) VALUES("0000000000048", "Coca Cola Lata 350ml Zero", "UN", "8.50", "100", "19059090", "123456", "18", 4, "REFRIERANTES", 1, "COCA COLA", "cocacola350mlzero.jpg");
+INSERT INTO tblProdutos (Codigo, Descricao, Unidade, Preco, Estoque, Ncm, Cst, Aliquota, GrupoID, Grupo, Ativo, Observacao, Imagem) VALUES("0000000000051", "SUCO DE LARANJA", "UN", "8.50", "100", "19059090", "123456", "18", 2, "", 1, "Suco de Laranja Natural", "sucodelaranja.jpg");
+INSERT INTO tblProdutos (Codigo, Descricao, Unidade, Preco, Estoque, Ncm, Cst, Aliquota, GrupoID, Grupo, Ativo, Observacao, Imagem) VALUES("0000000000040", "Heineken Lata 350 ml", "UN", "7.50", "100", "19059090", "123456", "18", 5, "", 1, "Digite os detalhes do produto", "heinekenLata350ml.jpg");
+INSERT INTO tblProdutos (Codigo, Descricao, Unidade, Preco, Estoque, Ncm, Cst, Aliquota, GrupoID, Grupo, Ativo, Observacao, Imagem) VALUES("0000000000019", "Coca Cola Lata 220 ml", "UN", "3.50", "100", "Digite o", "Digite o C", "Di", 4, "", 1, "Digite os detalhes do produto", "COCACOLALATA200ML.jpg");
 
 
 
 
 
 CREATE TABLE tblTurno (
-    TurnoID   INTEGER(11) NOT NULL,
+    TurnoID   INTEGER     NOT NULL AUTO_INCREMENT,
     Descricao VARCHAR(50) NOT NULL,
     Segunda   VARCHAR(10) NOT NULL,
     Terca     VARCHAR(10) NOT NULL,
@@ -117,10 +122,11 @@ CREATE TABLE tblTurno (
     Quinta    VARCHAR(10) NOT NULL,
     Sexta     VARCHAR(10) NOT NULL,
     Sabado    VARCHAR(10) NOT NULL,
-    Domingo   VARCHAR(10) NOT NULL
+    Domingo   VARCHAR(10) NOT NULL,
+    PRIMARY KEY (TurnoID)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO tblTurno (TurnoID, Descricao, Segunda, Terca, Quarta, Quinta, Sexta, Sabado, Domingo) VALUES(1, "horario", "11:0015:00", "11:0015:00", "11:0015:00", "11:0015:00", "11:0015:00", "11:0015:00", "11:0015:00");
+INSERT INTO tblTurno (Descricao, Segunda, Terca, Quarta, Quinta, Sexta, Sabado, Domingo) VALUES("horario", "11:0015:00", "11:0015:00", "11:0015:00", "11:0015:00", "11:0015:00", "11:0015:00", "11:0015:00");
 
 
 
