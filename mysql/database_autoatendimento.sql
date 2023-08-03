@@ -1,4 +1,4 @@
-CREATE DATABASE autoatendimento;
+CREATE DATABASE AutoAtendimento;
 
 use autoatendimento;
 
